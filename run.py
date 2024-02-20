@@ -67,7 +67,8 @@ def scrape_followers(bot, username, user_input):
     WebDriverWait(bot, TIMEOUT).until(EC.presence_of_element_located((By.XPATH, "//a[contains(@href, '/followers')]"))).click()
     time.sleep(2)
     print(f"[Info] - Scraping followers for {username}...")
-
+    with open('followers.txt', 'a') as file:
+        file.write(f"[Info] - Scraping followers for {username}... \n")
     users = set()
 
     while len(users) < user_input:
@@ -75,18 +76,19 @@ def scrape_followers(bot, username, user_input):
 
         for i in followers:
             if i.get_attribute('href'):
-                users.add(i.get_attribute('href').split("/")[3])
+                scraped_user = i.get_attribute('href').split("/")[3]
+                if(scraped_user):
+                    users.add(scraped_user)
+                    print(f"[Info] - Saving follower {scraped_user} for {username}...")
+                    with open('followers.txt', 'a') as file:
+                        file.write(scraped_user + "\n")
             else:
                 continue
-
         ActionChains(bot).send_keys(Keys.END).perform()
         time.sleep(1)
 
-    users = list(users)[:user_input]  # Trim the user list to match the desired number of followers
 
-    print(f"[Info] - Saving followers for {username}...")
-    with open(f'{username}_followers.txt', 'a') as file:
-        file.write('\n'.join(users) + "\n")
+    
 
 
 def scrape():
