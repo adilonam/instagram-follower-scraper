@@ -1,6 +1,8 @@
 import time
 import os
 from selenium import webdriver
+
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
@@ -106,9 +108,12 @@ def scrape():
     mobile_emulation = {
         "userAgent": "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 5 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/90.0.1025.166 Mobile Safari/535.19"}
     options.add_experimental_option("mobileEmulation", mobile_emulation)
-
-bot = webdriver.Chrome(executable_path=CM().install(), options=options)
-bot.set_page_load_timeout(15) # Set the page load timeout to 15 seconds
+    
+    # print(CM().install())
+    # return
+    bot = webdriver.Chrome(options=options )
+    
+    bot.set_page_load_timeout(15) # Set the page load timeout to 15 seconds
 
     login(bot, username, password)
 
